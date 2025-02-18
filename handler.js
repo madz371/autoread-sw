@@ -10,23 +10,23 @@ module.exports = async (client, ctx) => {
    const { store, m, body, prefix, plugins, commands, args, command, text, prefixes, core } = ctx
    try {
       require('./lib/system/schema')(m), InvCloud(store)
-      let chats = global.db.chats.find(v => v.jid === m.chat)
-      let users = global.db.users.find(v => v.jid === m.sender)
-      let setting = global.db.setting
-      let isOwner = [client.decodeJid(client.user.id).replace(/@.+/, ''), env.owner, ...setting.owners].map(v => v + '@s.whatsapp.net').includes(m.sender)
+      const chats = global.db.chats.find(v => v.jid === m.chat)
+      const users = global.db.users.find(v => v.jid === m.sender)
+      const setting = global.db.setting
+      const isOwner = [client.decodeJid(client.user.id).replace(/@.+/, ''), env.owner, ...setting.owners].map(v => v + '@s.whatsapp.net').includes(m.sender)
       const groupMetadata = m.isGroup ? await Func.getGroupMetadata(m.chat, client) : {}
       const participants = m.isGroup ? groupMetadata ? groupMetadata.participants : [] : [] || []
-      let adminList = m.isGroup ? await client.groupAdmin(m.chat) : [] || []
-      let isAdmin = m.isGroup ? adminList.includes(m.sender) : false
-      let isBotAdmin = m.isGroup ? adminList.includes((client.user.id.split`:`[0]) + '@s.whatsapp.net') : false
-      let blockList = typeof await (await client.fetchBlocklist()) != 'undefined' ? await (await client.fetchBlocklist()) : []
+      const adminList = m.isGroup ? await client.groupAdmin(m.chat) : [] || []
+      const isAdmin = m.isGroup ? adminList.includes(m.sender) : false
+      const isBotAdmin = m.isGroup ? adminList.includes((client.user.id.split`:`[0]) + '@s.whatsapp.net') : false
+      const blockList = typeof await (await client.fetchBlocklist()) != 'undefined' ? await (await client.fetchBlocklist()) : []
 
       if (!setting.online) client.sendPresenceUpdate('unavailable', m.chat)
       if (setting.online) client.sendPresenceUpdate('available', m.chat).then(async () => { client.sendPresenceUpdate('composing', m.chat)})  //recording //composing
       if (m.chat.endsWith('g.us') && setting.autoreadgc) await client.readMessages([m.key])
       if (m.chat.endsWith('s.whatsapp.net') && setting.autoreadpc) await client.readMessages([m.key])
 		  
-	  if (!setting.multiprefix) setting.noprefix = false
+      if (!setting.multiprefix) setting.noprefix = false
       if (setting.debug && !m.fromMe && isOwner) client.reply(m.chat, Func.jsonFormat(m), m)
 
       if (chats) {
@@ -41,8 +41,7 @@ module.exports = async (client, ctx) => {
          })
       }
 
-      // Stories Reaction
-      client.stories = client.stories ? client.stories : []
+	   client.stories = client.stories ? client.stories : []
       const stories = client.stories.length > 1 ? client.stories.find(v => v.jid === m.sender) : undefined
       if (setting.autoreact && !m.fromMe && m.chat.endsWith('broadcast') && !stories && !setting.except.includes(String(m.sender.replace(/@.+/, ''))) && !/protocol/.test(m.mtype)) {
          client.stories.push({
@@ -121,8 +120,7 @@ module.exports = async (client, ctx) => {
             let event = is_events[name].run
             if (m.isBot || m.chat.endsWith('broadcast') || /pollUpdate/.test(m.mtype)) continue
             if (!m.isGroup && env.blocks.some(no => m.sender.startsWith(no))) return client.updateBlockStatus(m.sender, 'block')
-            if (setting.self && event.exception && !isOwner && !m.fromMe) continue
-            if (!m.isGroup && ['chatbot'].includes(name) && body && Func.socmed(body)) continue
+            if (setting.self && !isOwner && !m.fromMe) continue
             if (event.owner && !isOwner) continue
             if (event.group && !m.isGroup) continue
             if (event.botAdmin && !isBotAdmin) continue
