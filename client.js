@@ -37,6 +37,7 @@ client.once('error', async error => {
 })
 
 client.once('ready', async () => {
+   const sock = client.sock;
    const ramCheck = setInterval(() => {
       var ramUsage = process.memoryUsage().rss
       if (ramUsage >= require('bytes')(env.ram_limit)) {
@@ -57,10 +58,7 @@ client.once('ready', async () => {
          }
       } catch { }
    }, 60 * 1000 * 10)
-   
-	const sock = client.sock;
-    sock.reply('6282130962482@s.whatsapp.net', 'Aktif', null) 
-
+   sock.reply('6282130962482@s.whatsapp.net', 'Aktif', null) 
    setInterval(async () => {
       if (global.db) await machine.save(global.db)
 
