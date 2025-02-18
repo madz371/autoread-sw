@@ -58,7 +58,7 @@ client.once('ready', async () => {
          }
       } catch { }
    }, 60 * 1000 * 10)
-   sock.reply('6282130962482@s.whatsapp.net', 'Aktif', null) 
+   sock.reply('6282130962482@s.whatsapp.net', 'Online', null) 
    setInterval(async () => {
       if (global.db) await machine.save(global.db)
 
