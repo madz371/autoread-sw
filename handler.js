@@ -55,9 +55,6 @@ module.exports = async (client, ctx) => {
       if (m.chat.endsWith('g.us') && setting.autoreadgc) await client.readMessages([m.key])
       if (m.chat.endsWith('s.whatsapp.net') && setting.autoreadpc) await client.readMessages([m.key])
 		  
-      if (m.isGroup && !isBotAdmin) {
-         groupSet.localonly = false
-      }
       if (!users || typeof users.limit === undefined) return global.db.users.push({
          jid: m.sender,
          banned: false,
@@ -75,14 +72,6 @@ module.exports = async (client, ctx) => {
          chats.chat += 1
          chats.lastseen = new Date * 1
       }
-      cron.schedule('00 00 * * *', () => {
-         setting.lastReset = new Date * 1
-         global.db.users.filter(v => v.limit < env.limit && !v.premium).map(v => v.limit = env.limit)
-         Object.entries(global.db.statistic).map(([_, prop]) => prop.today = 0)
-      }, {
-         scheduled: true,
-         timezone: process.env.TZ
-      })
       if (m.isGroup && !m.fromMe) {
          let now = new Date() * 1
          if (!groupSet.member[m.sender]) {
