@@ -53,7 +53,7 @@ module.exports = async (client, ctx) => {
          for (const v of client.stories) {
             if (client.stories.length > 0) await client.sendMessage('status@broadcast', {
                react: {
-                  text: Func.random(setting.emoji),
+                  text: Func.random(['🤣', '🥹', '😂', '😋', '😎', '🤓', '🤪', '🥳', '😠', '😱', '🤔']),
                   key: v.key
                }
             }, {
