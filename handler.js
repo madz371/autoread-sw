@@ -57,8 +57,6 @@ module.exports = async (client, ctx) => {
 		  
       if (!users || typeof users.limit === undefined) return global.db.users.push({
          jid: m.sender,
-         banned: false,
-         limit: env.limit,
          hit: 0,
          spam: 0
       })
