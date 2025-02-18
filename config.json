@@ -1,5 +1,5 @@
 {
-   "owner": "6282",
+   "owner": "62",
    "owner_name": "Owner Name",
    "database": "data",
    "ram_limit": "900mb",
@@ -13,7 +13,7 @@
    "evaluate_chars":  ["=>", "~>", "<", ">", "$"],
    "pairing": {
       "state": true,
-      "number": 628
+      "number": 62
    },
    "replit_url": ""
 }
