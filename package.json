@@ -20,10 +20,10 @@
    ],
    "license": "ISC",
    "dependencies": {
-      "@adiwajshing/baileys": "npm:@neoxr/baileys@7.5.8",
+      "@adiwajshing/baileys": "npm:@neoxr/baileys@7.6.3",
       "@adiwajshing/keyed-db": "^0.2.4",
       "@colors/colors": "^1.6.0",
-      "@neoxr/wb": "^4.6.7",
+      "@neoxr/wb": "^4.7.9",
       "@neoxr/youtube-scraper": "^3.1.5",
       "@octokit/rest": "^21.1.0",
       "bytes": "^3.1.2",
